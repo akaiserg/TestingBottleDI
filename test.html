@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title></title>
+    <!-- Bootstrap -->
+    <link href="lib/bootstrap_335/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="container text-center">
+    <div class="jumbotron">
+        <h3></h3>
+        <hr>
+        <div class="row">
+            <div class="col-lg-6 col-lg-offset-3 well">
+                <input id="btn1_id"  class="btn btn-primary btn-block" type="button" value=" Click">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12  ">
+                <em id="txt1_id">--</em>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container text-center">
+    <div class="jumbotron">
+        <h3></h3>
+        <hr>
+        <div class="row">
+            <div class="col-lg-6 col-lg-offset-3 well">
+                <input id="btn2_id"  class="btn btn-primary btn-block" type="button" value=" Click">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12  ">
+                <em id="txt2_id">--</em>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+
+<script  type="text/javascript"  src="lib/bottle_120/bottle.min.js"></script>
+<script  type="text/javascript"  src="interface/Interface.js"></script>
+<script  type="text/javascript"  src="contract/Contract.js"></script>
+<script  type="text/javascript"  src="modules/EnglishTxtModule.js"></script>
+<script  type="text/javascript"  src="modules/SpanishTxtModule.js"></script>
+<script  type="text/javascript"  src="modules/AppModule.js"></script>
+
+<script type="text/javascript">
+
+    //init bottle
+    var bottleDi = new Bottle();
+    //registers the services
+    bottleDi.service('spanishTxtModule', SpanishTxtModule);
+    bottleDi.service('englishTxtModule', EnglishTxtModule);
+
+    //sets an object with the html ids for Spanish language
+    var HtmlIdSpanish= function(){ this.getIdHtmlButton=function(){return "btn1_id";};this.getIdHtmlLabel=function(){return"txt1_id"; }};
+    bottleDi.service('htmlIdSpanish',HtmlIdSpanish );
+
+    //sets an object with the html ids for English language
+    var HtmlIdEnglish= function(){ this.getIdHtmlButton=function(){return "btn2_id";};this.getIdHtmlLabel=function(){return"txt2_id"; }};
+    bottleDi.service('htmlIdEnglish',HtmlIdEnglish );
+
+    //registers the App twice, one for English and the other one for Spanish
+    bottleDi.service('appModuleSpanish',AppModule,"htmlIdSpanish","spanishTxtModule");
+    bottleDi.service('appModuleEnglish',AppModule,"htmlIdEnglish","englishTxtModule");
+
+    //The instances of  both modules  are gotten
+    var spanishApp= bottleDi.container.appModuleSpanish;
+    var englishApp= bottleDi.container.appModuleEnglish;
+
+</script>
+
